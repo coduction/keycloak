@@ -33,8 +33,7 @@ jobs:
         env:
           BASE: 22.0.4
         run: |
-          TS=$(date +%s)
-          VERSION=$BASE.$TS
+          VERSION=$BASE
           echo $VERSION
           echo "VERSION_NUMBER=$VERSION" >> $GITHUB_ENV
       - name: Build and push
