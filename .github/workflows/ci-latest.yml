@@ -48,7 +48,6 @@ jobs:
             ghcr.io/coduction/keycloak:${{ env.VERSION_NUMBER }}
       - name: Update Coduction SSO
         uses: appleboy/ssh-action@v0.1.10
-        if: ${{ env.DEPLOY == 'true' }}
         with:
           host: ${{ vars.CODUCTION_TESTING_HOST }}
           username: ${{ vars.CODUCTION_TESTING_USER }}
