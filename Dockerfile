@@ -30,6 +30,7 @@ USER 1000
 
 COPY --from=builder /opt/keycloak/lib/quarkus/ /opt/keycloak/lib/quarkus/
 COPY --from=builder /opt/keycloak/providers/ /opt/keycloak/providers/
+COPY --from=builder /opt/keycloak/conf/cache-ispn-jdbc-ping.xml /opt/keycloak/conf/cache-ispn-jdbc-ping.xml
 
 WORKDIR /opt/keycloak
 # this cert shouldn't be used, as it's just to stop the startup from complaining
