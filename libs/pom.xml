@@ -20,12 +20,13 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <keycloak.version>21.0.2</keycloak.version>
-    <resteasy.version>4.7.7.Final</resteasy.version>
-    <keycloak-events.version>[0.12,)</keycloak-events.version>
-    <keycloak-magic-link.version>[0.8,)</keycloak-magic-link.version>
-    <keycloak-orgs.version>[0.25,)</keycloak-orgs.version>
-    <keycloak-themes.version>[0.13,)</keycloak-themes.version>
+    <keycloak.version>22.0.1</keycloak.version>
+    <resteasy.version>6.2.4.Final</resteasy.version>
+    <keycloak-events.version>0.19</keycloak-events.version>
+    <keycloak-magic-link.version>0.16</keycloak-magic-link.version>
+    <keycloak-orgs.version>0.40</keycloak-orgs.version>
+    <keycloak-themes.version>0.18</keycloak-themes.version>
+    <phasetwo-admin-portal.version>0.11</phasetwo-admin-portal.version>
   </properties>
 
   <dependencies>
@@ -48,6 +49,11 @@
       <groupId>io.phasetwo.keycloak</groupId>
       <artifactId>keycloak-themes</artifactId>
       <version>${keycloak-themes.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.phasetwo</groupId>
+      <artifactId>phasetwo-admin-portal</artifactId>
+      <version>${phasetwo-admin-portal.version}</version>
     </dependency>
     <dependency>
       <groupId>org.keycloak</groupId>
@@ -96,7 +102,7 @@
     <dependency>
       <groupId>dnsjava</groupId>
       <artifactId>dnsjava</artifactId>
-      <version>3.5.1</version>
+      <version>3.5.2</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
