@@ -1,0 +1,57 @@
+name: Build Image - Latest
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: "maven"
+      - name: Build with Maven
+        run: cd libs/ && mvn -U --batch-mode package && cd ../
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Version
+        env:
+          BASE: 22.0.4
+        run: |
+          TS=$(date +%s)
+          VERSION=$BASE.$TS
+          echo $VERSION
+          echo "VERSION_NUMBER=$VERSION" >> $GITHUB_ENV
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/coduction/keycloak:latest
+            ghcr.io/coduction/keycloak:${{ env.VERSION_NUMBER }}
+      - name: Update Coduction SSO
+        uses: appleboy/ssh-action@v0.1.10
+        if: ${{ env.DEPLOY == 'true' }}
+        with:
+          host: ${{ vars.CODUCTION_TESTING_HOST }}
+          username: ${{ vars.CODUCTION_TESTING_USER }}
+          key: ${{ secrets.CODUCTION_TESTING_SSH_KEY }}
+          passphrase: ${{ secrets.CODUCTION_TESTING_SSH_KEY_PASS }}
+          script: /home/${{ vars.CODUCTION_TESTING_USER }}/scripts/deploy/sso.sh
